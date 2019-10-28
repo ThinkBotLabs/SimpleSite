@@ -15,9 +15,9 @@ pipeline {
                 script {
                     echo 'smoke test to see if it will run'
                     app = docker.build("procstar/simplesite")
-                    app.inside {
-                        sh 'echo $(curl udoc.corp.byrd.guru:80)'
-                    }
+                    //app.inside {
+                    //    sh 'echo $(curl udoc.corp.byrd.guru:80)'
+                    //}
                 }
             }
         }
