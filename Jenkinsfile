@@ -15,9 +15,6 @@ pipeline {
                 script {
                     echo 'smoke test to see if it will run'
                     app = docker.build("procstar/simplesite")
-                    //app.inside {
-                    //    sh 'echo $(curl udoc.corp.byrd.guru:80)'
-                    //}
                 }
             }
         }
@@ -43,14 +40,14 @@ pipeline {
                 milestone(1)
                 withCredentials([usernamePassword(credentialsId: 'webserver_login', usernameVariable: 'USERNAME', passwordVariable: 'USERPASS')]) {
                     script {
-                        sh "sshpass -p '$USERPASS' -v ssh -o StrictHostKeyChecking=no $USERNAME@$prod_ip -p 5050 \"docker pull procstar/simplesite:${env.BUILD_NUMBER}\""
+                        sh "docker pull procstar/simplesite:${env.BUILD_NUMBER}"
                         try {                                                        
-                            sh "sshpass -p '$USERPASS' -v ssh -o StrictHostKeyChecking=no $USERNAME@$prod_ip \"docker stop simple-site\""
-                            sh "sshpass -p '$USERPASS' -v ssh -o StrictHostKeyChecking=no $USERNAME@$prod_ip \"docker rm simple-site\""
+                            sh "docker stop simple-site"
+                            sh "docker rm simple-site"
                         } catch (err) {
                             echo: 'caught error: $err'
                         }
-                        sh "sshpass -p '$USERPASS' -v ssh -o StrictHostKeyChecking=no $USERNAME@$prod_ip -p 5050 \"docker run --restart always --name simple-site -p 80:80 -d procstar/simplesite:${env.BUILD_NUMBER}\""
+                        sh "docker run --restart always --name simple-site -p 80:80 -d procstar/simplesite:${env.BUILD_NUMBER}"
                     }
                 }
             }
