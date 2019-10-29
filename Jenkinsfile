@@ -63,8 +63,7 @@ pipeline
             }
             steps 
             {         
-                kubernetesDeploy
-                (
+                kubernetesDeploy (
                     kubeconfigId: 'kubeconfig',
                     configs: 'simple-site-kube.yml',
                     enableConfigSubstitution: true
