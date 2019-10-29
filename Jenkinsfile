@@ -51,16 +51,19 @@ pipeline
                 branch 'master'
             }
             steps 
-            {
+            {                
                 sh "docker pull procstar/simplesite:${env.BUILD_NUMBER}"
-                try 
+                script
                 {
-                    sh "docker stop simple-site"
-                    sh "docker rm simple-site"
-                } 
-                catch (err) 
-                {
-                    echo: 'caught error: $err'
+                    try 
+                    {
+                        sh "docker stop simple-site"
+                        sh "docker rm simple-site"
+                    } 
+                    catch (err) 
+                    {
+                        echo: 'caught error: $err'
+                    }
                 }
                 sh "docker run --restart always --name simple-site -p 80:80 -d procstar/simplesite:${env.BUILD_NUMBER}"                
             }
