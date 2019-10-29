@@ -58,10 +58,18 @@ pipeline
                 branch 'master'
             }
             steps 
-            {                
-                sh "docker pull procstar/simplesite:${env.BUILD_NUMBER}"
+            {         
                 script
-                {
+                {   
+                    withCredentials([usernamePassword( credentialsId: 'docker_hub_login', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) 
+                    {
+                        docker.withRegistry('', 'docker_hub_login') 
+                        {
+                            sh "docker login -u ${USERNAME} -p ${PASSWORD}"
+                            sh "docker pull procstar/simplesite:${env.BUILD_NUMBER}"
+                        }
+                    } 
+                
                     try 
                     {
                         sh "docker stop simple-site"
