@@ -34,16 +34,19 @@ pipeline
             }
             steps 
             {
-                /* Finally, we'll push the image with two tags:
-                * First, the incremental build number from Jenkins
-                * Second, the 'latest' tag. */
-                withCredentials([usernamePassword( credentialsId: 'docker_hub_login', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) 
+                script
                 {
-                    docker.withRegistry('', 'docker_hub_login') 
+                    /* Finally, we'll push the image with two tags:
+                    * First, the incremental build number from Jenkins
+                    * Second, the 'latest' tag. */
+                    withCredentials([usernamePassword( credentialsId: 'docker_hub_login', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) 
                     {
-                        sh "docker login -u ${USERNAME} -p ${PASSWORD}"
-                        app.push("${env.BUILD_NUMBER}")
-                        app.push("latest")
+                        docker.withRegistry('', 'docker_hub_login') 
+                        {
+                            sh "docker login -u ${USERNAME} -p ${PASSWORD}"
+                            app.push("${env.BUILD_NUMBER}")
+                            app.push("latest")
+                        }
                     }
                 }
             }
