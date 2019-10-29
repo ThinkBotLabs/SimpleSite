@@ -1,4 +1,4 @@
 # SimpleSite
 This is a HTML5 simple site for testing CI/CD. 
 
-More information to come!
+Curently configured to deploy to Kubernetes via Jenkins
