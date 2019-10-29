@@ -1,7 +1,7 @@
 kind: Service
 apiVersion: v1
-metadata
-  name: simple-site-service
+metadata:
+  name:  simple-site-service
 spec:
   type: NodePort
   selector:
@@ -10,27 +10,27 @@ spec:
   - protocol: TCP
     port: 80
     nodePort: 80
-    
- ---
- 
-apiVersion:: extensions/v1beta1
+
+---
+
+apiVersion: apps/v1
 kind: Deployment
 metadata:
- name: simple-site-deployment
- labels:
-   app: simple-site
+  name: simple-site-deployment
+  labels:
+    app: simple-site
 spec:
   replicas: 2
   selector:
     matchLabels:
       app: simple-site
-    template:
-      metadata:
-        labels:
-          app: simple-site
-      spec:
-        containers:
-        - name: simple-site
-          image: $DOCKER_IMAGE_NAME:$BUILD_NUMBER
-          ports:
-          - containerPort: 80
+  template:
+    metadata:
+      labels:
+        app: simple-site
+    spec:
+      containers:
+      - name: simple-site
+        image: $DOCKER_IMAGE_NAME:$BUILD_NUMBER
+        ports:
+        - containerPort: 80
