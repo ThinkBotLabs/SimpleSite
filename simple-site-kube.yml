@@ -8,8 +8,8 @@ spec:
     app: simple-site
   ports:
   - protocol: TCP
-    port: 32000
-    nodePort: 32000
+    port: 8080
+    nodePort: 8080
 
 ---
 
@@ -33,4 +33,4 @@ spec:
       - name: simple-site
         image: $DOCKER_IMAGE_NAME:$BUILD_NUMBER
         ports:
-        - containerPort: 32000
+        - containerPort: 8080
