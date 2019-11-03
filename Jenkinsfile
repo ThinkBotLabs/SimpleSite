@@ -25,7 +25,6 @@ pipeline
             {
                 script 
                 {
-                    echo 'smoke test to see if it will run'
                     app = docker.build("procstar/simplesite")
                 }
             }
