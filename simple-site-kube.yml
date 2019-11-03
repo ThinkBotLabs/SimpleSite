@@ -8,8 +8,8 @@ spec:
     app: simple-site
   ports:
   - protocol: TCP
-    port: 32500
-    nodePort: 32500
+    port: 80
+    nodePort: 80
 
 ---
 
